@@ -37,7 +37,7 @@ public class Ball : MonoBehaviour {
         isPressed = true;
         rb.isKinematic = true;
 
-        StartCoroutine(Release());
+      
 
     }
 
