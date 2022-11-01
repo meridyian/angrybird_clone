@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Ball : MonoBehaviour {
 
@@ -9,6 +10,9 @@ public class Ball : MonoBehaviour {
 
     public float releaseTime = 0.15f;
     public float maxDragDistance = 2f;
+
+    public GameObject nextBall;
+
 
     private bool isPressed = false;
 
@@ -20,7 +24,7 @@ public class Ball : MonoBehaviour {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (Vector3.Distance(mousePos, hook.position) > maxDragDistance)
 
-                rb.position = hook.position + (mousePos - hook.position ).normalized * maxDragDistance;
+                rb.position = hook.position + (mousePos - hook.position).normalized * maxDragDistance;
 
             else
                 rb.position = mousePos;
@@ -37,6 +41,16 @@ public class Ball : MonoBehaviour {
 
     }
 
+    private void OnMouseUp()
+    {
+        isPressed = false;
+        rb.isKinematic = false;
+
+        StartCoroutine(Release());
+    }
+
+
+
 
     IEnumerator Release()
     {
@@ -44,16 +58,19 @@ public class Ball : MonoBehaviour {
 
         GetComponent<SpringJoint2D>().enabled = false;
         this.enabled = false;
+
+        yield return new WaitForSeconds(2f);
+
+        nextBall.SetActive(true);
+
+        if (nextBall != null)
+        {
+            nextBall.SetActive(true);
+
+        } else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
-
-
-
-
-    void OnMouseUp()
-    {
-        isPressed = false;
-        rb.isKinematic = false;
-    }
-
 
 }
