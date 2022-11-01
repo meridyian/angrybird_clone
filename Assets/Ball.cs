@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour {
 
-    private bool isPressed = false;
-
     public Rigidbody2D rb;
 
-    private void Update()
+    public float releaseTime = 0.15f;
+
+    private bool isPressed = false;
+
+
+    void Update()
     {
         if (isPressed)
         {
@@ -21,7 +24,21 @@ public class Ball : MonoBehaviour {
     {
         isPressed = true;
         rb.isKinematic = true;
+
+        StartCoroutine(Release());
+
     }
+
+
+    IEnumerator Release()
+    {
+        yield return new WaitForSeconds(releaseTime);
+
+        GetComponent<SpringJoint2D>().enabled = false;
+    }
+
+
+
 
     void OnMouseUp()
     {
