@@ -20,7 +20,7 @@ public class Ball : MonoBehaviour {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (Vector3.Distance(mousePos, hook.position) > maxDragDistance)
 
-                rb.position = hook.position + (hook.position - mousePos).normalized * maxDragDistance;
+                rb.position = hook.position + (mousePos - hook.position ).normalized * maxDragDistance;
 
             else
                 rb.position = mousePos;
